@@ -1,0 +1,32 @@
+.promotion {
+    position: absolute;
+    top: 0;
+    height: 20rem;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #fff;
+    box-shadow: var(--primary-shadow);
+    border-radius: .3rem;
+    z-index: 5;
+
+    .promotion_item {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all .3s;
+
+        &:hover {
+            // background: black;
+        }
+
+        img {
+            max-width: 70%;
+            max-height: 70%;
+        }
+    }
+}
