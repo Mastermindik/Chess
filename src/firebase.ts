@@ -4,12 +4,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCvBBa0qCqfrTtECku9kpJrtrCgrjXP9xs",
-  authDomain: "react-chess-c99aa.firebaseapp.com",
-  projectId: "react-chess-c99aa",
-  storageBucket: "react-chess-c99aa.appspot.com",
-  messagingSenderId: "646832927802",
-  appId: "1:646832927802:web:816d35d708b6a82137b103"
+  apiKey: import.meta.env.API_KEY,
+  authDomain: import.meta.env.AUTH_DOMAIN,
+  projectId: import.meta.env.PROJECT_ID,
+  storageBucket: import.meta.env.STORADRE_BUCKET,
+  messagingSenderId: import.meta.env.MESSAGING_SENDER_ID,
+  appId: import.meta.env.APP_ID
 };
 
 // Initialize Firebase

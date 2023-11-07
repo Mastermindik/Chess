@@ -1,0 +1,28 @@
+.square {
+    position: relative;
+    width: 12.5%;
+    height: 12.5%;
+    flex: 0 0 12.5%;
+  
+    &.white {
+      background: var(--primary-square);
+    }
+  
+    &.black {
+      background: var(--secondary-square);
+    }
+  
+    .piece {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: grab;
+  
+      img {
+        max-width: 70%;
+        max-height: 70%;
+      }
+    }
+  }
