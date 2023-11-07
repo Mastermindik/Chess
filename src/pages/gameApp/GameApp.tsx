@@ -27,7 +27,7 @@ export default function GameApp() {
   const [user, loading, error] = useAuthState(auth);
 
   //TODO promotions
-  //TODO oponent
+  //TODO restart game
 
   useEffect(() => {
     async function init() {
@@ -96,15 +96,17 @@ export default function GameApp() {
   }
 
   return (
-    <div>
-      <div className="">
-        {opponentName}
+    <>
+      <div className="game">
+        <div className="">
+          {opponentName}
+        </div>
+        {isGameOver && gameResult && !closeModal && <ModalEndGame reason={gameResult} setCloseModal={setCloseModal} />}
+        <Board board={board} color={color} rotate={rotate} />
+        <div className="">
+          {memberName}
+        </div>
       </div>
-      {isGameOver && gameResult && !closeModal && <ModalEndGame reason={gameResult} setCloseModal={setCloseModal} />}
-      <Board board={board} color={color} rotate={rotate} />
-      <div className="">
-        {memberName}
-      </div>
-    </div>
+    </>
   )
 }

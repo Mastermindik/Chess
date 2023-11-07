@@ -22,7 +22,7 @@ export default function StartPage() {
   const [link, setLink] = useState<string>("");
   const [gameId, setGameId] = useState<string>("");
   const [redirectToGame, setRedirectToGame] = useState<boolean>(false);
-  const { currentUser } = auth
+  const { currentUser } = auth;
   const baseUrl = window.location.origin;
 
   const handleNext = () => {

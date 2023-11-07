@@ -78,8 +78,7 @@ export async function initGame(
 
 export function checkPromotion(from: string, to: string) {
   const promotions = chess.moves({ verbose: true }).filter(e => e.promotion);
-
-
+  
   if (promotions.some(p => `${p.from}:${p.to}` === `${from}:${to}`)) {
     const pendingPromotion: IPromotion = { from, to, color: promotions[0].color, promotionPieces: ["r", "n", "b", "q"] }
     updateGame(pendingPromotion)

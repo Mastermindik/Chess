@@ -25,10 +25,7 @@ export default function Board({ board, color, rotate }: BoardProps) {
     const letters = horisontal[x];
     return `${letters}${y + 1}`
   }
-  console.log(color);
 
-
-  /* передивитись структуру дом дерева */
   return (
     <div className="board_wrapper">
       <div className="vertical">
