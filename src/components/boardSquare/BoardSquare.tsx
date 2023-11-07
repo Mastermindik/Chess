@@ -88,7 +88,6 @@ export default function BoardSquare({ black, piece, position, rotate }: BoardSqu
           rotate={rotate} />}
       {canDrop &&
         <Hint
-          piece={piece}
           isOverPiece={isOver}
           isCaptured={isCaptured(position)} />}
     </div>

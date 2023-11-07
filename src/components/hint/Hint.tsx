@@ -1,12 +1,10 @@
-import { IPiece } from "../../models/IPiece"
 
 type HintProps = {
-  piece: IPiece | null,
   isOverPiece: boolean,
   isCaptured: boolean
 }
 
-export default function Hint({ piece, isOverPiece, isCaptured }: HintProps) {
+export default function Hint({ isOverPiece, isCaptured }: HintProps) {
     
   return (
     <>
