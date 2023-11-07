@@ -47,9 +47,9 @@ export default function BoardSquare({ black, piece, position, rotate }: BoardSqu
 
   useEffect(() => {
     const subscribe = gameSubject.subscribe(
-      ({ pendingPromotion }) =>
-        pendingPromotion && pendingPromotion.to === position
-          ? setPromotion(pendingPromotion)
+      (game) =>
+        game?.pendingPromotion && game?.pendingPromotion.to === position
+          ? setPromotion(game?.pendingPromotion)
           : setPromotion(null)
     )
     return () => subscribe.unsubscribe();
