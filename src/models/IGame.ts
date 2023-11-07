@@ -1,4 +1,5 @@
 import { Chess } from "chess.js";
+import { IMember } from "./IMember";
 
 const chess = new Chess();
 
@@ -17,5 +18,15 @@ export interface IGame {
   pendingPromotion: IPromotion | null,
   isGameOver: boolean,
   isDraw: boolean,
-  gameResult: string | null
+  gameResult: string | null,
+  member: IMember,
+  opponent: IMember | null,
+}
+
+export interface IGameDetails {
+  pendingPromotion: IPromotion | null,
+  gameData?: string,
+  status: "waiting" | "ready",
+  members: IMember[],
+  gameId: string
 }

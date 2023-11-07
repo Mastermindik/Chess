@@ -1,0 +1,61 @@
+.loading_wrapper {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+
+    .loading {
+        width: 4rem;
+        height: 4rem;
+
+        display: flex;
+        flex-wrap: wrap;
+
+        border-radius: .3rem;
+        overflow: hidden;
+        animation: rotate-center .7s ease-in-out infinite both;
+
+        .square {
+            flex: 50%;
+            width: 2rem;
+            height: 2rem;
+
+            &.black {
+                background: var(--primary-square);
+            }
+
+            &.white {
+                background: var(--secondary-square);
+            }
+        }
+    }
+}
+
+@-webkit-keyframes rotate-center {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-center {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}

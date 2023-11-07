@@ -16,4 +16,3 @@ export default function Hint({ piece, isOverPiece, isCaptured }: HintProps) {
     </>
   )
 }
-//${piece === null ? "beat" : ""}`

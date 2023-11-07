@@ -1,5 +1,12 @@
 @import url("./styles/Promote.scss");
 @import url("./styles/ModalEndGame.scss");
+@import url("./styles/StepGameLink.scss");
+@import url("./styles/StepColor.scss");
+@import url("./styles/StartPage.scss");
+@import url("./styles/Board.scss");
+@import url("./styles/Loading.scss");
+@import url("./styles/Hint.scss");
+
 
 #root {
   min-height: 100svh;
@@ -12,71 +19,11 @@
   text-align: center; */
 }
 
-.board {
-  height: 40rem;
-  width: 40rem;
-  display: flex;
-  flex-wrap: wrap;
 
-  .axis_x {
-    flex: 0 0 12.5%;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-}
 
-.vertical {
-  height: 40rem;
-  display: flex;
-  flex-direction: column-reverse;
 
-  .axis_y {
-    height: 12.5%;
-    margin-right: 0.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    font-weight: 600;
-  }
-}
 
-.hint {
-  position: absolute;
-  // inset: 1;
-  width: 100%;
-  height: 100%;
-  background: var(--hint-bg);
-
-  border-radius: 50%;
-  scale: .3;
-
-  &.beat {
-    background: transparent;
-    scale: 1;
-    border: .5rem solid var(--hint-bg);
-  }
-
-}
-
-.beat {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-
-  border: .5rem solid var(--hint-bg);
-  border-radius: 50%;
-  z-index: 5;
-}
-
-.over {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border: .5rem solid var(--hint-square-bg);
-}
 
 .square {
   position: relative;

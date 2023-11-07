@@ -1,10 +1,11 @@
 import { restartGame } from "../../game/Game"
 
 type ModalEndGameProps = {
-  reason: string
+  reason: string,
+  setCloseModal: Function
 }
 
-export default function ModalEndGame({ reason }: ModalEndGameProps) {
+export default function ModalEndGame({ reason, setCloseModal }: ModalEndGameProps) {
   return (
     <div className="modal_wrapper">
       <div className="modal">
@@ -15,7 +16,7 @@ export default function ModalEndGame({ reason }: ModalEndGameProps) {
           <button className="btn restart" onClick={restartGame}>
             Restart
           </button>
-          <button className="btn close" >
+          <button className="btn close" onClick={() => setCloseModal(true)} >
             Close
           </button>
         </div>

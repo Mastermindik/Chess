@@ -23,7 +23,8 @@ import Promote from "../promote/Promote"
 type BoardSquareProps = {
   black: boolean,
   piece: IPiece | null,
-  position: string
+  position: string,
+  rotate: boolean
 }
 
 const pieceImg = {
@@ -41,7 +42,7 @@ const pieceImg = {
   r_w
 }
 
-export default function BoardSquare({ black, piece, position }: BoardSquareProps) {
+export default function BoardSquare({ black, piece, position, rotate }: BoardSquareProps) {
   const [promotion, setPromotion] = useState<IPromotion | null>(null);
 
   useEffect(() => {
@@ -83,7 +84,8 @@ export default function BoardSquare({ black, piece, position }: BoardSquareProps
         <Piece
           piece={piece}
           pieceImg={pieceImg[`${piece.type}_${piece.color}`]}
-          position={position} />}
+          position={position}
+          rotate={rotate} />}
       {canDrop &&
         <Hint
           piece={piece}

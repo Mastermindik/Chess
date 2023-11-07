@@ -1,0 +1,56 @@
+.colors {
+    display: flex;
+    gap: 1rem;
+    position: relative;
+
+    .white,
+    .black,
+    .random {
+        width: 7rem;
+        aspect-ratio: 1;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        border: 2px solid var(--primary-bg);
+        border-radius: .5rem;
+        background: var(--primary-bg);
+        cursor: pointer;
+
+        img {
+            width: 70%;
+            height: 70%;
+        }
+
+    }
+
+    .random {
+
+        .white_path,
+        .black_path {
+            width: 5rem;
+            height: 5rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            translate: 65% -50%;
+        }
+
+        .white_path {
+            clip-path: inset(0 50% 0 0);
+        }
+
+        .black_path {
+            clip-path: inset(0 0 0 50%);
+        }
+    }
+
+    input[type="radio"] {
+        display: none;
+
+        &:checked+label {
+            border-color: var(--primary-color);
+        }
+    }
+}
