@@ -16,7 +16,7 @@ export default function StepNickname({
   handleBack, handleNext, firstStep, lastStep, nickname, setNickname
 }: StepNicknameProps) {
   async function handleClick() {
-    await signInAnonymously(auth).then(e => {
+    await signInAnonymously(auth).then(() => {
       localStorage.setItem("nickname", nickname)
     }).catch(e => console.error(e));
     handleNext();
