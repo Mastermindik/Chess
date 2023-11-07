@@ -1,8 +1,8 @@
 import { getTurn } from "../../game/Game";
 import { IBoard } from "../../models/IGame";
-import AxisX from "../axis/AxisX";
-import AxisY from "../axis/AxisY";
 import BoardSquare from "../boardSquare/BoardSquare"
+import XCoordinate from "../coordinates/XCoordinate";
+import YCoordinate from "../coordinates/YCoordinate";
 
 type BoardProps = {
   board: IBoard,
@@ -12,7 +12,6 @@ type BoardProps = {
 
 export default function Board({ board, color, rotate }: BoardProps) {
   const horisontal = ["a", "b", "c", "d", "e", "f", "g", "h"];
-  const vertical = [1, 2, 3, 4, 5, 6, 7, 8];
   function isBlack(i: number) {
     const row = Math.floor(i / 8);
     const col = i % 8;
@@ -28,9 +27,8 @@ export default function Board({ board, color, rotate }: BoardProps) {
 
   return (
     <div className="board_wrapper">
-      <div className="vertical">
-        {vertical.map(e => <AxisY number={e} key={e} />)}
-      </div>
+      <XCoordinate flip hidden={!rotate} />
+      <YCoordinate hidden={rotate} />
       <div className={`board ${rotate && "rotate"}`} style={{ pointerEvents: color === getTurn() ? "auto" : "none" }}>
         {board.flat().map((piece, i) =>
           <BoardSquare
@@ -42,10 +40,8 @@ export default function Board({ board, color, rotate }: BoardProps) {
           />
         )}
       </div>
-      <div className="horisontal">
-        <div className="corner">1</div>
-        {horisontal.map(e => <AxisX letter={e} key={e} />)}
-      </div>
+      <YCoordinate flip hidden={!rotate} />
+      <XCoordinate  hidden={rotate} />
     </div>
   )
 }

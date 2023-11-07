@@ -7,6 +7,8 @@
 @import url("./styles/Loading.scss");
 @import url("./styles/Hint.scss");
 @import url("./styles/Square.scss");
+@import url("./styles/GameApp.scss");
+@import url("./styles/Coordinates.scss");
 
 
 #root {
@@ -14,8 +16,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center; */
 }

@@ -1,0 +1,54 @@
+.horisontal {
+    flex: 100%;
+    display: flex;
+
+    &.flip {
+        .coordinates {
+            flex-direction: row-reverse;
+        }
+    }
+
+    &.hidden {
+        visibility: hidden;
+    }
+
+    .corner {
+        width: 1rem;
+    }
+
+    .coordinates {
+        width: 40rem;
+        display: flex;
+
+        .axis_x {
+            flex: 0 0 12.5%;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+    }
+}
+
+.vertical {
+    width: 1rem;
+    height: 40rem;
+    display: flex;
+    flex-direction: column-reverse;
+
+    &.flip {
+        flex-direction: column;
+    }
+
+    &.hidden {
+        visibility: hidden;
+    }
+    
+    .axis_y {
+        height: 12.5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-weight: 600;
+    }
+}

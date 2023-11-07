@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Board from "../../components/board/Board";
 import ModalEndGame from "../../components/modalEndGame/ModalEndGame";
-import { gameSubject, getHistory, initGame, showGameHistory } from "../../game/Game";
+import { gameSubject, initGame } from "../../game/Game";
 import { IBoard } from "../../models/IGame";
 import { collection, doc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
@@ -18,10 +18,8 @@ export default function GameApp() {
   const [rotate, setRotate] = useState<boolean>(false);
   const [memberName, setMemberName] = useState<string>("");
   const [opponentName, setOpponentName] = useState<string>("");
-  const [initResult, setInitResult] = useState<"not found" | "intruder" | undefined>();
+  const [initResult, setInitResult] = useState<"not found" | "intruder" | "game over" | undefined>();
   const [closeModal, setCloseModal] = useState<boolean>(false);
-  const [historyMoveIndex, setHistoryMoveIndex] = useState<number>(0);
-  const [history, setHistory] = useState<string[]>([]);
   const { id } = useParams();
   const nickname = localStorage.getItem("nickname");
   const [user, loading, error] = useAuthState(auth);
@@ -29,10 +27,9 @@ export default function GameApp() {
   //TODO promotions
   //TODO restart game
 
-  useEffect(() => {
+  useEffect(() => {    
     async function init() {
       const res = await initGame(doc(collection(db, "games"), `${id}`), nickname ? nickname : '')
-      console.log(res);
       setInitResult(res)
     }
     init();
@@ -57,24 +54,6 @@ export default function GameApp() {
     }
   }, [user])
 
-  function setUpHistory() {
-    const history = getHistory();
-    setHistory(history);
-    setHistoryMoveIndex(history.length - 1);
-  }
-
-  function nextMove() {
-    showGameHistory(historyMoveIndex + 1, history);
-    setHistoryMoveIndex(state => state + 1);
-  }
-
-  function prevMove() {
-    console.log(history);
-
-    showGameHistory(historyMoveIndex - 1, history);
-    setHistoryMoveIndex(state => state - 1);
-  }
-
   if (!user) {
     return <OpponentEnter />
   }
@@ -95,18 +74,24 @@ export default function GameApp() {
     return 'The game is already full'
   }
 
+  if (initResult === 'game over') {
+    return 'The game is over'
+  }
+
   return (
-    <>
-      <div className="game">
-        <div className="">
-          {opponentName}
-        </div>
-        {isGameOver && gameResult && !closeModal && <ModalEndGame reason={gameResult} setCloseModal={setCloseModal} />}
-        <Board board={board} color={color} rotate={rotate} />
-        <div className="">
+    <div className="game">
+      {isGameOver && gameResult && !closeModal && <ModalEndGame reason={gameResult} setCloseModal={setCloseModal} />}
+      <Board board={board} color={color} rotate={rotate} />
+      <div className="info">
+        {!!opponentName.length &&
+          <div className="name opponent">
+            {opponentName}
+          </div>
+        }
+        <div className="name member">
           {memberName}
         </div>
       </div>
-    </>
+    </div>
   )
 }

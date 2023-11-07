@@ -1,7 +1,7 @@
 .board_wrapper {
     display: flex;
     flex-wrap: wrap;
-    width: 41.1rem;
+    width: 42rem;
 
     .board {
         // flex: auto;
@@ -14,40 +14,5 @@
             rotate: 180deg;
         }
 
-    }
-    
-    .vertical {
-        // flex: 0 0 5%;
-        height: 40rem;
-        display: flex;
-        flex-direction: column-reverse;
-        
-        .axis_y {
-            height: 12.5%;
-            margin-right: 0.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            font-weight: 600;
-        }
-    }
-
-    
-    .horisontal {
-        flex: 100%;
-        display: flex;
-        margin-left: auto;
-        .corner {
-            margin-right: 0.5rem;
-            visibility: hidden;
-        }
-
-        .axis_x {
-            flex: 0 0 12.2%;
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
     }
 }

@@ -1,14 +1,17 @@
+import { Outlet } from 'react-router-dom';
 import './App.scss'
-import StartPage from './pages/startPage/StartPage';
+import { Suspense } from 'react';
+import Loading from './components/loading/Loading';
 
 function App() {
   //TODO Коли дошка з'являється то наче штори роздвигаються
-  //TODO Лоадер наче шахматна додшка маленька
-  //TODO Перевірку чи є попередній хід
+  //TODO Game Over
 
   return (
     <>
-      <StartPage />
+      <Suspense fallback={<Loading />} >
+        <Outlet />
+      </Suspense>
     </>
   )
 }

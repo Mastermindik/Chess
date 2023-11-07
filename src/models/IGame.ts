@@ -26,7 +26,7 @@ export interface IGame {
 export interface IGameDetails {
   pendingPromotion: IPromotion | null,
   gameData?: string,
-  status: "waiting" | "ready",
+  status: "waiting" | "ready" | "over",
   members: IMember[],
   gameId: string
 }

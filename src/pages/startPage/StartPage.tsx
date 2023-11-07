@@ -1,4 +1,4 @@
-import { Button, Step, StepContent, StepLabel, Stepper, ThemeProvider, createTheme } from "@mui/material";
+import { Button, Step, StepContent, StepLabel, Stepper } from "@mui/material";
 import { useState } from "react";
 import StepNickname from "../../components/steps/StepNickname";
 import StepColor from "../../components/steps/StepColor";
@@ -8,12 +8,6 @@ import { auth, db } from "../../firebase";
 import { IGameDetails } from "../../models/IGame";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { Navigate } from "react-router-dom";
-
-const theme = createTheme({
-  palette: {
-    mode: "dark"
-  }
-})
 
 export default function StartPage() {
   const [activeStep, setActiveStep] = useState<number>(0);
@@ -100,25 +94,25 @@ export default function StartPage() {
   }
 
   return (
-    <ThemeProvider theme={theme} >
-      <div className="stepper_wrapper">
-        <Stepper activeStep={activeStep} orientation="vertical" >
-          {steps.map(({ label, component }) => (
-            <Step key={label}>
-              <StepLabel>
-                {label}
-              </StepLabel>
-              <StepContent >
-                {component}
-              </StepContent>
-            </Step>
-          ))}
-        </Stepper>
-        {activeStep === steps.length && (
-          <Button variant="contained" color="success" onClick={() => setRedirectToGame(true)} >start game</Button>
-        )}
-      </div>
-      {redirectToGame && <Navigate to={`/game/${gameId}`} />}
-    </ThemeProvider>
+
+    <div className="stepper_wrapper">
+      <Stepper activeStep={activeStep} orientation="vertical" >
+        {steps.map(({ label, component }) => (
+          <Step key={label}>
+            <StepLabel>
+              {label}
+            </StepLabel>
+            <StepContent >
+              {component}
+            </StepContent>
+          </Step>
+        ))}
+      </Stepper>
+      {activeStep === steps.length && (
+        <Button variant="contained" color="success" onClick={() => setRedirectToGame(true)} >start game</Button>
+      )}
+      { redirectToGame && <Navigate to={`/game/${gameId}`} /> }
+    </div>
+
   )
 }

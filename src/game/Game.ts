@@ -4,18 +4,9 @@ import { IGame, IGameDetails, IPromotion } from "../models/IGame";
 import { DocumentData, DocumentReference, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { auth } from "../firebase";
 import { IMember } from "../models/IMember";
-// import {} from 'rxfire/firestore';
 
 const chess = new Chess();
 
-// Ініціалізуєм початкові значення
-// const initialGame: IGame = {
-//   board: chess.board(),
-//   pendingPromotion: null,
-//   isGameOver: chess.isGameOver(),
-//   isDraw: chess.isDraw(),
-//   gameResult: gameResult()
-// }
 let gameRef: DocumentReference<DocumentData, DocumentData>
 
 export const gameSubject = new BehaviorSubject<IGame | null>(null)
@@ -32,7 +23,9 @@ export async function initGame(
   }
   const gameData = gameDoc.data() as IGameDetails;
   const creator = gameData.members.find(m => m.creator === true);
-
+  if (gameData.status === "over") {
+    return "game over"
+  }
   if (gameData.status === "waiting" && creator?.uid !== currentUser?.uid) {
     const currentMember: IMember = {
       name: nickname,
@@ -78,7 +71,7 @@ export async function initGame(
 
 export function checkPromotion(from: string, to: string) {
   const promotions = chess.moves({ verbose: true }).filter(e => e.promotion);
-  
+
   if (promotions.some(p => `${p.from}:${p.to}` === `${from}:${to}`)) {
     const pendingPromotion: IPromotion = { from, to, color: promotions[0].color, promotionPieces: ["r", "n", "b", "q"] }
     updateGame(pendingPromotion)
@@ -97,7 +90,7 @@ export function move(from: string, to: string,
     updateGame()
   }
 }
- 
+
 export function canMove(from: string, to: string) {
   const moves = chess.moves({ verbose: true });
   return moves.some(e => e.to === to && e.from === from);
@@ -128,23 +121,17 @@ function gameResult() {
 
 export function restartGame() {
   chess.reset();
-  // updateGame();
+  updateGame(null, true);
 }
 
-function updateGame(pendingPromotion: IPromotion | null = null) {
-  // const newGame: IGame = {
-  //   board: chess.board(),
-  //   pendingPromotion,
-  //   isGameOver: chess.isGameOver(),
-  //   isDraw: chess.isDraw(),
-  //   gameResult: gameResult(),
-  // }
-  const updatedData = { gameData: chess.fen(), pendingPromotion: pendingPromotion }
-  if (gameRef) {
+function updateGame(pendingPromotion: IPromotion | null = null,
+  over?: boolean) {
+  if (over) {
+    updateDoc(gameRef, { status: "over" })
+  } else if (gameRef) {
+    const updatedData = { gameData: chess.fen(), pendingPromotion: pendingPromotion }
     updateDoc(gameRef, updatedData)
   }
-  // gameSubject.next(newGame);
-  // console.log(chess.history());
 }
 
 export function getTurn() {
@@ -164,13 +151,4 @@ export function undo() {
 export function showGameHistory(move: number, history: string[]) {
   chess.load(history[move]);
   // updateGame()
-}
-
-let history: string[] = [];
-
-export function getHistory() {
-  const nextPositions = chess.history({ verbose: true }).map(e => e.after);
-  const firstPosition = chess.history({ verbose: true })[0].before;
-  return history = [firstPosition, ...nextPositions];
-
 }
