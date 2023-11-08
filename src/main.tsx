@@ -5,9 +5,7 @@ import './index.css'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-// import GameApp from './pages/gameApp/GameApp.tsx'
 import { ThemeProvider, createTheme } from '@mui/material'
-// import StartPage from './pages/startPage/StartPage.tsx'
 const StartPage = React.lazy(() => import('./pages/startPage/StartPage.tsx'))
 const GameApp = React.lazy(() => import('./pages/gameApp/GameApp.tsx'))
 

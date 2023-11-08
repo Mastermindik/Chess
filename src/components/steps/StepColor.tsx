@@ -1,6 +1,6 @@
 import StepButtons from "./StepButtons"
-import k_b from "../../assets/k_b.png"
-import k_w from "../../assets/k_w.png"
+import bk from "../../assets/bk.png"
+import wk from "../../assets/wk.png"
 import { ChangeEvent } from "react"
 
 type StepColorProps = {
@@ -37,7 +37,7 @@ export default function StepColor({
           onChange={e => handleChange(e)} />
 
         <label className="white" htmlFor="white">
-          <img src={k_w} alt="white" />
+          <img src={wk} alt="white" />
         </label>
 
         <input
@@ -48,7 +48,7 @@ export default function StepColor({
           onChange={e => handleChange(e)} />
 
         <label className="black" htmlFor="black">
-          <img src={k_b} alt="black" />
+          <img src={bk} alt="black" />
         </label>
 
         <input
@@ -59,8 +59,8 @@ export default function StepColor({
           onChange={e => handleChange(e)} />
 
         <label className="random" htmlFor="random">
-          <img src={k_b} alt="random" className="white_path" />
-          <img src={k_w} alt="random" className="black_path" />
+          <img src={bk} alt="random" className="white_path" />
+          <img src={wk} alt="random" className="black_path" />
         </label>
       </div>
       <StepButtons
