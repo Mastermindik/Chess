@@ -18,34 +18,31 @@ export default function GameApp() {
   const [rotate, setRotate] = useState<boolean>(false);
   const [memberName, setMemberName] = useState<string>("");
   const [opponentName, setOpponentName] = useState<string>("");
-  const [initResult, setInitResult] = useState<"not found" | "intruder" | "game over" | undefined>();
+  const [initResult, setInitResult] = useState<"not found" | "intruder" | "game over" | "game created">();
   const [closeModal, setCloseModal] = useState<boolean>(false);
   const { id } = useParams();
-  const nickname = localStorage.getItem("nickname");
   const [user, loading, error] = useAuthState(auth);
+  const nickname = localStorage.getItem("nickname");
 
-  //TODO promotions
   //TODO restart game
 
-  useEffect(() => {    
+  useEffect(() => {
     async function init() {
       const res = await initGame(doc(collection(db, "games"), `${id}`), nickname ? nickname : '')
       setInitResult(res)
     }
     init();
     const subscribe = gameSubject.subscribe(game => {
-      if (game) {
-        setBoard(game.board);
-        setIsGameOver(game.isGameOver);
-        setGameResult(game.gameResult);
-        setColor(game.member?.piece.substring(0, 1));
-        if (game.member?.piece === "black") {
-          setRotate(true);
-        }
-        setMemberName(game.member.name);
-        if (game.opponent) {
-          setOpponentName(game.opponent.name)
-        }
+      setBoard(game.board);
+      setIsGameOver(game.isGameOver);
+      setGameResult(game.gameResult);
+      setColor(game.member?.piece.substring(0, 1));
+      if (game.member.piece === "black") {
+        setRotate(true);
+      }
+      setMemberName(game.member.name);
+      if (game.opponent) {
+        setOpponentName(game.opponent.name)
       }
     })
 

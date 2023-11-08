@@ -3,14 +3,13 @@ import { IMember } from "./IMember";
 
 const chess = new Chess();
 
-// export type IBoard = ReturnType<typeof chess.board>;
 export interface IBoard extends ReturnType<typeof chess.board> { }
 
 export interface IPromotion {
   from: string,
   to: string,
   color: "w" | "b",
-  promotionPieces: ("r"| "n"| "b"| "q")[]
+  promotionPieces: ("r" | "n" | "b" | "q")[]
 }
 
 export interface IGame {
@@ -29,4 +28,19 @@ export interface IGameDetails {
   status: "waiting" | "ready" | "over",
   members: IMember[],
   gameId: string
+}
+
+export const defaultGame: IGame = {
+  board: [],
+  gameResult: null,
+  isDraw: false,
+  isGameOver: false,
+  pendingPromotion: null,
+  opponent: null,
+  member: {
+    uid: "",
+    piece: "white",
+    name: "",
+    creator: true
+  }
 }

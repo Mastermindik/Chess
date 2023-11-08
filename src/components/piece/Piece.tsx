@@ -20,12 +20,12 @@ export default function Piece({ piece, pieceImg, position, rotate }: PieceProps)
   return (
     <>
       <DragPreviewImage connect={preview} src={pieceImg} />
-      <div className="piece" 
-      ref={drag} 
-      style={{ 
-        opacity: isDragging ? 0 : 1,
-        rotate: rotate ? "180deg" : "0deg"
-       }} >
+      <div className="piece"
+        ref={drag}
+        style={{
+          opacity: isDragging ? 0 : 1,
+          rotate: rotate ? "180deg" : "0deg"
+        }} >
         <img src={pieceImg} alt={piece.type} />
       </div>
     </>

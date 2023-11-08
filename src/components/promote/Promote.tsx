@@ -1,27 +1,27 @@
 import { IPromotion } from "../../models/IGame"
 
-import b_b from "../../assets/b_b.png"
-import b_w from "../../assets/b_w.png"
-import n_b from "../../assets/n_b.png"
-import n_w from "../../assets/n_w.png"
-import q_b from "../../assets/q_b.png"
-import q_w from "../../assets/q_w.png"
-import r_b from "../../assets/r_b.png"
-import r_w from "../../assets/r_w.png"
+import wb from "../../assets/wb.png"
+import wn from "../../assets/wn.png"
+import wr from "../../assets/wr.png"
+import wq from "../../assets/wq.png"
+import bb from "../../assets/bb.png"
+import bn from "../../assets/bn.png"
+import br from "../../assets/br.png"
+import bq from "../../assets/bq.png"
 import { move } from "../../game/Game"
 
 type PromoteProps = {
   promotions: IPromotion
 }
 const pieceImg = {
-  b_b,
-  b_w,
-  n_b,
-  n_w,
-  q_b,
-  q_w,
-  r_b,
-  r_w
+  wb,
+  wn,
+  wr,
+  wq,
+  bb,
+  bn,
+  br,
+  bq
 }
 
 export default function Promote({
@@ -31,7 +31,7 @@ export default function Promote({
     <div className="promotion">
       {promotionPieces.map(e => 
       <div key={e} className="promotion_item" onClick={() => move(from, to, e)}>
-        <img src={pieceImg[`${e}_${color}`]} alt={e} />
+        <img src={pieceImg[`${color}${e}`]} alt={e} />
       </div>
        )}
     </div>
