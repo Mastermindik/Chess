@@ -7,7 +7,7 @@ import { IMember } from "../../models/IMember";
 import { auth, db } from "../../firebase";
 import { IGameDetails } from "../../models/IGame";
 import { collection, doc, setDoc } from "firebase/firestore";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function StartPage() {
   const [activeStep, setActiveStep] = useState<number>(0);
@@ -15,7 +15,7 @@ export default function StartPage() {
   const [nickname, setNickname] = useState<string>("");
   const [link, setLink] = useState<string>("");
   const [gameId, setGameId] = useState<string>("");
-  const [redirectToGame, setRedirectToGame] = useState<boolean>(false);
+  const navigate = useNavigate();
   const { currentUser } = auth;
   const baseUrl = window.location.origin;
 
@@ -26,6 +26,10 @@ export default function StartPage() {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
+  const goToGame = () => {
+    navigate(`/game/${gameId}`)
+  }
 
   const steps = [
     {
@@ -80,7 +84,7 @@ export default function StartPage() {
     }
     console.log(game);
 
-    // await db.collection("games").doc(game.gameId).set(game)
+    // зберегти колекцію
     const gamesCollection = collection(db, "games");
 
     // Отримати посилання на документ за ідентифікатором "game.gameId"
@@ -109,9 +113,8 @@ export default function StartPage() {
         ))}
       </Stepper>
       {activeStep === steps.length && (
-        <Button variant="contained" color="success" onClick={() => setRedirectToGame(true)} >start game</Button>
+        <Button variant="contained" color="success" onClick={goToGame} >start game</Button>
       )}
-      { redirectToGame && <Navigate to={`/game/${gameId}`} /> }
     </div>
 
   )
