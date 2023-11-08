@@ -20,8 +20,8 @@ const router = createBrowserRouter(
           element: <GameApp />,
         },
         {
-          path: "startPage",
-          element: <StartPage />
+          path: "/startPage",
+          element: <StartPage />,
         }
       ]
     }
