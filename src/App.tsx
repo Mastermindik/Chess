@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router-dom';
+// import { Outlet } from 'react-router-dom';
 import './App.scss'
-import { Suspense } from 'react';
-import Loading from './components/loading/Loading';
+// import { Suspense } from 'react';
+// import Loading from './components/loading/Loading';
 import StartPage from './pages/startPage/StartPage';
 
 function App() {
