@@ -7,7 +7,7 @@ import { IMember } from "../../models/IMember";
 import { auth, db } from "../../firebase";
 import { IGameDetails } from "../../models/IGame";
 import { collection, doc, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export default function StartPage() {
   const [activeStep, setActiveStep] = useState<number>(0);
@@ -15,9 +15,9 @@ export default function StartPage() {
   const [nickname, setNickname] = useState<string>("");
   const [link, setLink] = useState<string>("");
   const [gameId, setGameId] = useState<string>("");
-  const navigate = useNavigate();
   const { currentUser } = auth;
   const baseUrl = window.location.origin;
+  const [redirect, setRedirect] = useState(false)
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -28,7 +28,7 @@ export default function StartPage() {
   };
 
   const goToGame = () => {
-    navigate(`/game/${gameId}`)
+    setRedirect(true)
   }
 
   const steps = [
@@ -115,6 +115,7 @@ export default function StartPage() {
       {activeStep === steps.length && (
         <Button variant="contained" color="success" onClick={goToGame} >start game</Button>
       )}
+      {redirect && <Navigate to={`/game/${gameId}`} />}
     </div>
 
   )
