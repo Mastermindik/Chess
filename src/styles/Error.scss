@@ -1,0 +1,68 @@
+.error {
+    height: 100svh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary-bg);
+    color: var(--primary-color);
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .title {
+            margin: 0;
+            font-size: 14.3rem;
+            font-weight: 900;
+            background: url("../assets/bg-error.jpg") no-repeat center;
+            background-size: cover;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .not_found {
+            width: min(28rem, 95%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+            text-align: center;
+
+            .subtitle {
+                margin: 0;
+                font-size: 1.5rem;
+            }
+
+            .descr {
+                margin: 0;
+            }
+
+            .btn {
+                border-radius: 2rem;
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .error {
+        .wrapper {
+            .title {
+                font-size: 7rem;
+            }
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .error {
+        .wrapper {
+            .title {
+                font-size: 3rem;
+            }
+        }
+    }
+}
