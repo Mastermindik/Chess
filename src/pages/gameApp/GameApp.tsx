@@ -61,19 +61,19 @@ export default function GameApp() {
   }
 
   if (error) {
-    return "Error"
-  }
-
-  if (initResult === 'not found') {
     return <ErrorPage />
   }
 
+  if (initResult === 'not found') {
+    return <ErrorPage subtitle="Game not found" description="The game you are looking for is temporarily unavailable." />
+  }
+
   if (initResult === 'intruder') {
-    return 'The game is already full'
+    return <ErrorPage subtitle="Game is full" description="The game you are looking for is already full." />
   }
 
   if (initResult === 'game over') {
-    return 'The game is over'
+    return <ErrorPage subtitle="Game over" description="The game you are looking for is already over." />
   }
 
   return (

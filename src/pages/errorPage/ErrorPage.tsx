@@ -1,7 +1,15 @@
 import { Button } from "@mui/material"
 import { useNavigate } from "react-router-dom";
 
-export default function ErrorPage() {
+type ErrorPageProps = {
+  subtitle?: string,
+  description?: string
+}
+
+export default function ErrorPage({
+  subtitle = "Page not found",
+  description = "The page you are looking for might have been removed had its name changed or is temporarily unavailable."
+}:ErrorPageProps) {
   const navigate = useNavigate();
 
   return (
@@ -9,8 +17,8 @@ export default function ErrorPage() {
       <div className="wrapper">
         <h1 className="title">Oops!</h1>
         <div className="not_found">
-          <h2 className="subtitle">404 - Page not found</h2>
-          <p className="descr">The page you are looking for might have been removed had its name changed or is temporarily unavailable.</p>
+          <h2 className="subtitle">404 - {subtitle}</h2>
+          <p className="descr">{description}</p>
           <Button color="primary"
             variant="contained"
             size="large"
