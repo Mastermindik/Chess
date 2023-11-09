@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import OpponentEnter from "../../components/opponentEnter/OpponentEnter";
 import { useAuthState } from 'react-firebase-hooks/auth'
 import Loading from "../../components/loading/Loading";
+import ErrorPage from "../errorPage/ErrorPage";
 
 export default function GameApp() {
   const [board, setBoard] = useState<IBoard>([]);
@@ -64,7 +65,7 @@ export default function GameApp() {
   }
 
   if (initResult === 'not found') {
-    return 'Game Not found'
+    return <ErrorPage />
   }
 
   if (initResult === 'intruder') {
