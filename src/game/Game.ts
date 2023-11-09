@@ -27,12 +27,12 @@ export async function initGame(
   gameRef = gameRefFb
   const { currentUser } = auth;
   const gameDoc = await getDoc(gameRefFb);
-
-  if (!gameDoc) {
+  const gameData = gameDoc.data() as IGameDetails;
+  
+  if (!gameData) {
     return "not found"
   }
 
-  const gameData = gameDoc.data() as IGameDetails;
   const creator = gameData.members.find(m => m.creator === true);
 
   if (gameData.status === "over") {
