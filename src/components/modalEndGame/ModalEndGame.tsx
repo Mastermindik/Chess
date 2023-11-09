@@ -10,7 +10,7 @@ export default function ModalEndGame({ reason, setCloseModal }: ModalEndGameProp
   const navigate = useNavigate();
   function handlerestart() {
     restartGame();
-    navigate("/startPage");
+    navigate("/");
   }
 
   return (
