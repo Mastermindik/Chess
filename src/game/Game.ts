@@ -1,9 +1,10 @@
 import { Chess } from "chess.js";
 import { BehaviorSubject } from "rxjs";
-import { IGame, IGameDetails, IPromotion, defaultGame } from "../models/IGame";
-import { DocumentData, DocumentReference, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
-import { auth } from "../firebase";
+import { IGame, IGameDetails, IPromotion, IUpdateGameDetails, defaultGame } from "../models/IGame";
+import { DocumentData, DocumentReference, collection, doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 import { IMember } from "../models/IMember";
+import { IHistoryMove } from "../models/IHistoryMove";
 
 // init chess
 const chess = new Chess();
@@ -14,10 +15,35 @@ let gameRef: DocumentReference<DocumentData, DocumentData>
 export const gameSubject = new BehaviorSubject<IGame>(defaultGame);
 
 /**
+ * Create game and setup starting parameters
+ * @param member object of creator
+ * @returns 
+ */
+export async function createGame(member: IMember) {
+  const game: IGameDetails = {
+    status: "waiting",
+    members: [member],
+    gameId: `${Math.random().toString(36).substring(2, 9)}_${Date.now()}`,
+    pendingPromotion: null,
+    history: []
+  }
+
+  // зберегти колекцію
+  const gamesCollection = collection(db, "games");
+
+  // Отримати посилання на документ за ідентифікатором "game.gameId"
+  const gameDoc = doc(gamesCollection, game.gameId);
+
+  // Зберегти дані гри в документ
+  await setDoc(gameDoc, game);
+  return game.gameId;
+}
+
+/**
  * 
  * @param gameRefFb document db (firebase)
  * @param nickname name of User
- * @returns Promise<"not found" | "game over" | "intruder" | "game created">
+ * @returns Promise<"not found" | "game over" | "intruder" | "connected to game">
  * 
  */
 export async function initGame(
@@ -28,16 +54,16 @@ export async function initGame(
   const { currentUser } = auth;
   const gameDoc = await getDoc(gameRefFb);
   const gameData = gameDoc.data() as IGameDetails;
-  
+
   if (!gameData) {
     return "not found"
   }
 
-  const creator = gameData.members.find(m => m.creator === true);
-
   if (gameData.status === "over") {
     return "game over";
   }
+
+  const creator = gameData.members.find(m => m.creator === true);
 
   if (gameData.status === "waiting" && creator?.uid !== currentUser?.uid) {
     const currentMember: IMember = {
@@ -47,18 +73,18 @@ export async function initGame(
       creator: false
     }
     const members = [...gameData.members, currentMember];
-    await updateDoc(gameRefFb, { members, status: "ready" });
+    await updateDoc<DocumentData, IUpdateGameDetails>(gameRefFb, { members, status: "ready" });
 
   } else if (!gameData.members.some(m => m.uid === currentUser?.uid)) {
     return 'intruder';
   }
 
   chess.reset();
-  
+
   //monitor data updates in Firebase
   onSnapshot(gameRefFb, (gameDoc) => {
     const game = gameDoc.data() as IGameDetails;
-    const { pendingPromotion, gameData, members } = game;
+    const { pendingPromotion, gameData, members, history } = game;
     const member = members.find(m => m.uid === currentUser?.uid);
     const opponent = members.find(m => m.uid !== currentUser?.uid);
 
@@ -78,13 +104,14 @@ export async function initGame(
           pendingPromotion,
           member,
           opponent: opponent ? opponent : null,
+          history
         }
       );
     }
 
-    updateGame()
   });
-  return "game created"
+  // updateGame()
+  return "connected to game"
 }
 
 /**
@@ -116,7 +143,7 @@ export function move(from: string, to: string, promotion?: string) {
   const legalMove = chess.move(tempMove);
 
   if (legalMove) {
-    updateGame()
+    updateGame();
   }
 }
 
@@ -201,8 +228,10 @@ async function updateGame(pendingPromotion: IPromotion | null = null,
     gameSubject.next(game)
 
   } else if (gameRef) {
-    const updatedData = { gameData: chess.fen(), pendingPromotion }
-    await updateDoc(gameRef, updatedData)
+    const history = await getHistory();
+    
+    const updatedData: IUpdateGameDetails = { gameData: chess.fen(), pendingPromotion, history }
+    await updateDoc<DocumentData, IUpdateGameDetails>(gameRef, updatedData);
   }
 }
 
@@ -214,17 +243,18 @@ export function getTurn() {
   return chess.turn()
 }
 
-// export function undo() {
-//   const test = chess.undo();
-//   const history = chess.history({ verbose: true }).map(e => e.after);
-//   console.log(history);
+/**
+ * 
+ * @returns array of history moves
+ */
+async function getHistory() {
+  const gameDoc = await getDoc(gameRef);
+  const { history } = gameDoc.data() as IGameDetails;
+  
+  const {color, piece, san, lan} = chess.history({ verbose: true })[0];
+  
+  const nextMove: IHistoryMove = { color: color, piece: piece, move: san === ("O-O" || "O-O-O") ? san : lan};
 
+  return [...history, nextMove];
+}
 
-//   console.log(test);
-//   // updateGame()
-// }
-
-// export function showGameHistory(move: number, history: string[]) {
-//   chess.load(history[move]);
-//   // updateGame()
-// }

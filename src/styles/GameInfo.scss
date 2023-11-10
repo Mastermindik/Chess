@@ -1,0 +1,25 @@
+.info {
+    padding: 1rem 0;
+    width: 15rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .name {
+        padding: 0.5rem;
+        width: fit-content;
+
+        color: var(--primary-color);
+        font-weight: 600;
+        border-radius: .3rem;
+
+        &.opponent {
+            background: rgb(102, 1, 1);
+        }
+        
+        &.member {
+            // margin-top: auto;
+            background: rgb(10, 98, 2);
+        }
+    }
+}

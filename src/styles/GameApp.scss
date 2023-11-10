@@ -3,27 +3,50 @@
     justify-content: center;
     align-items: stretch;
     gap: 1rem;
-    .info {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+
+    outline: 5px solid var(--secondary-square);
+    border-radius: 1rem;
+
+    &:before,
+    &:after {
+        content: "";
+        background: var(--primary-bg);
+        position: absolute;
+        top: 2px;
+        bottom: 2px;
+        z-index: 999;
+        animation-delay: 1s;
+    }
+
+    &:before {
+        left: 0;
+        right: 100%;
+        animation: slideLeft 1s;
+    }
+
+    &:after {
+        left: 100%;
+        right: 0;
+        animation: slideRight 1s;
+    }
+}
+
+@keyframes slideLeft {
+    0% {
+        right: 50%;
+    }
     
-        .name {
-            padding: 0.5rem;
-            width: fit-content;
+    100% {
+        right: 100%;
+    }
+}
+
+@keyframes slideRight {
+    0% {
+        left: 50%;
+    }
     
-            color: var(--primary-color);
-            font-weight: 600;
-            border-radius: .3rem;
-    
-            &.opponent {
-                background: rgb(102, 1, 1);
-            }
-            
-            &.member {
-                margin-top: auto;
-                background: rgb(10, 98, 2);
-            }
-        }
+    100% {
+        left: 100%;
     }
 }

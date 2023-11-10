@@ -1,5 +1,6 @@
 import { Chess } from "chess.js";
 import { IMember } from "./IMember";
+import { IHistoryMove } from "./IHistoryMove";
 
 const chess = new Chess();
 
@@ -20,6 +21,7 @@ export interface IGame {
   gameResult: string | null,
   member: IMember,
   opponent: IMember | null,
+  history: IHistoryMove[]
 }
 
 export interface IGameDetails {
@@ -27,7 +29,17 @@ export interface IGameDetails {
   gameData?: string,
   status: "waiting" | "ready" | "over",
   members: IMember[],
-  gameId: string
+  gameId: string,
+  history: IHistoryMove[]
+}
+
+export interface IUpdateGameDetails {
+  pendingPromotion?: IPromotion | null,
+  gameData?: string,
+  status?: "waiting" | "ready" | "over",
+  members?: IMember[],
+  gameId?: string,
+  history?: IHistoryMove[]
 }
 
 export const defaultGame: IGame = {
@@ -37,6 +49,7 @@ export const defaultGame: IGame = {
   isGameOver: false,
   pendingPromotion: null,
   opponent: null,
+  history: [],
   member: {
     uid: "",
     piece: "white",

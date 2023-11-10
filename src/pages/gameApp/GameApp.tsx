@@ -10,6 +10,8 @@ import OpponentEnter from "../../components/opponentEnter/OpponentEnter";
 import { useAuthState } from 'react-firebase-hooks/auth'
 import Loading from "../../components/loading/Loading";
 import ErrorPage from "../errorPage/ErrorPage";
+import { IHistoryMove } from "../../models/IHistoryMove";
+import HistoryBox from "../../components/historyBox/HistoryBox";
 
 export default function GameApp() {
   const [board, setBoard] = useState<IBoard>([]);
@@ -19,12 +21,12 @@ export default function GameApp() {
   const [rotate, setRotate] = useState<boolean>(false);
   const [memberName, setMemberName] = useState<string>("");
   const [opponentName, setOpponentName] = useState<string>("");
-  const [initResult, setInitResult] = useState<"not found" | "intruder" | "game over" | "game created">();
+  const [initResult, setInitResult] = useState<"not found" | "intruder" | "game over" | "connected to game">();
   const [closeModal, setCloseModal] = useState<boolean>(false);
   const { id } = useParams();
   const [user, loading, error] = useAuthState(auth);
   const nickname = localStorage.getItem("nickname");
-
+  const [history, setHistory] = useState<IHistoryMove[]>([])
   //TODO restart game
 
   useEffect(() => {
@@ -45,12 +47,14 @@ export default function GameApp() {
       if (game.opponent) {
         setOpponentName(game.opponent.name)
       }
+      setHistory(game.history)
     })
 
     return () => {
       subscribe.unsubscribe()
     }
   }, [user])
+  console.log(history);
 
   if (!user) {
     return <OpponentEnter />
@@ -76,20 +80,23 @@ export default function GameApp() {
     return <ErrorPage subtitle="Game over" description="The game you are looking for is already over." />
   }
 
-  return (
-    <div className="game">
-      {isGameOver && gameResult && !closeModal && <ModalEndGame reason={gameResult} setCloseModal={setCloseModal} />}
-      <Board board={board} color={color} rotate={rotate} />
-      <div className="info">
-        {!!opponentName.length &&
-          <div className="name opponent">
-            {opponentName}
+  if (initResult === "connected to game") {
+    return (
+      <div className="game">
+        {isGameOver && gameResult && !closeModal && <ModalEndGame reason={gameResult} setCloseModal={setCloseModal} />}
+        <Board board={board} color={color} rotate={rotate} />
+        <div className="info">
+          {!!opponentName.length &&
+            <div className="name opponent">
+              {opponentName}
+            </div>
+          }
+          <HistoryBox history={history} />
+          <div className="name member">
+            {memberName}
           </div>
-        }
-        <div className="name member">
-          {memberName}
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }

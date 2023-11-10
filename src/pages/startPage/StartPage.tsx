@@ -8,6 +8,7 @@ import { auth, db } from "../../firebase";
 import { IGameDetails } from "../../models/IGame";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { Navigate } from "react-router-dom";
+import { createGame } from "../../game/Game";
 
 export default function StartPage() {
   const [activeStep, setActiveStep] = useState<number>(0);
@@ -76,25 +77,11 @@ export default function StartPage() {
       piece: pickColor(color),
       creator: true
     }
-    const game: IGameDetails = {
-      status: "waiting",
-      members: [member],
-      gameId: `${Math.random().toString(36).substring(2, 9)}_${Date.now()}`,
-      pendingPromotion: null,
-    }
-    console.log(game);
 
-    // зберегти колекцію
-    const gamesCollection = collection(db, "games");
+    const gameId = await createGame(member);
 
-    // Отримати посилання на документ за ідентифікатором "game.gameId"
-    const gameDoc = doc(gamesCollection, game.gameId);
-
-    // Зберегти дані гри в документ
-    await setDoc(gameDoc, game);
-    setGameId(game.gameId);
-    setLink(`${baseUrl}/game/${game.gameId}`);
-
+    setGameId(gameId);
+    setLink(`${baseUrl}/game/${gameId}`);
   }
 
   return (
