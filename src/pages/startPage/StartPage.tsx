@@ -4,9 +4,7 @@ import StepNickname from "../../components/steps/StepNickname";
 import StepColor from "../../components/steps/StepColor";
 import StepGameLink from "../../components/steps/StepGameLink";
 import { IMember } from "../../models/IMember";
-import { auth, db } from "../../firebase";
-import { IGameDetails } from "../../models/IGame";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { auth } from "../../firebase";
 import { Navigate } from "react-router-dom";
 import { createGame } from "../../game/Game";
 
