@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom"
 import { restartGame } from "../../game/Game"
+import { Button } from "@mui/material";
 
 type ModalEndGameProps = {
   reason: string,
-  setCloseModal: Function
+  setCloseModal: Function,
 }
 
 export default function ModalEndGame({ reason, setCloseModal }: ModalEndGameProps) {
@@ -20,12 +21,18 @@ export default function ModalEndGame({ reason, setCloseModal }: ModalEndGameProp
           {reason}
         </div>
         <div className="buttons">
-          <button className="btn restart" onClick={handlerestart}>
-            Restart
-          </button>
-          <button className="btn close" onClick={() => setCloseModal(true)} >
+          <Button 
+          variant="contained" 
+          color="success" 
+          onClick={handlerestart}>
+            New game
+          </Button>
+          <Button 
+          variant="contained" 
+          color="error" 
+          onClick={() => setCloseModal(true)}>
             Close
-          </button>
+          </Button>
         </div>
       </div>
     </div>

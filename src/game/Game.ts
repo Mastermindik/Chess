@@ -25,7 +25,7 @@ export async function createGame(member: IMember) {
     members: [member],
     gameId: `${Math.random().toString(36).substring(2, 9)}_${Date.now()}`,
     pendingPromotion: null,
-    history: []
+    history: [],
   }
 
   // зберегти колекцію
@@ -104,7 +104,7 @@ export async function initGame(
           pendingPromotion,
           member,
           opponent: opponent ? opponent : null,
-          history
+          history,
         }
       );
     }
@@ -198,21 +198,6 @@ export function restartGame() {
   updateGame(null, true);
 }
 
-// export async function revancheGame() {
-//   chess.reset();
-//   const gameDoc = await getDoc(gameRef);
-//   const game = gameDoc.data() as IGameDetails;
-//   const newCreator = game.members.filter(e => e.creator)[0];
-//   newCreator.piece = newCreator.piece === "black" ? "white" : "black";
-//   const newOpponent = game.members.filter(e => !e.creator)[0];
-//   newOpponent.piece = newOpponent.piece === "black" ? "white" : "black";
-//   const newMembers = [newCreator, newOpponent]
-
-//   await updateDoc(gameRef, { members: newMembers, status: "ready", gameData: chess.fen() });
-
-//   updateGame();
-// }
-
 /**
  * Update game position
  * @param pendingPromotion if we have promotion
@@ -221,7 +206,7 @@ export function restartGame() {
 async function updateGame(pendingPromotion: IPromotion | null = null,
   over?: boolean) {
   if (over) {
-    await updateDoc(gameRef, { status: "over" })
+    await updateDoc<DocumentData, IUpdateGameDetails>(gameRef, { status: "over" })
   } else if (pendingPromotion) {
     const game = gameSubject.getValue();
     game.pendingPromotion = pendingPromotion;
@@ -229,7 +214,7 @@ async function updateGame(pendingPromotion: IPromotion | null = null,
 
   } else if (gameRef) {
     const history = await getHistory();
-    
+
     const updatedData: IUpdateGameDetails = { gameData: chess.fen(), pendingPromotion, history }
     await updateDoc<DocumentData, IUpdateGameDetails>(gameRef, updatedData);
   }
@@ -250,10 +235,10 @@ export function getTurn() {
 async function getHistory() {
   const gameDoc = await getDoc(gameRef);
   const { history } = gameDoc.data() as IGameDetails;
-  
-  const {color, piece, san, lan} = chess.history({ verbose: true })[0];
-  
-  const nextMove: IHistoryMove = { color: color, piece: piece, move: san === ("O-O" || "O-O-O") ? san : lan};
+
+  const { color, piece, san, lan } = chess.history({ verbose: true })[0];
+
+  const nextMove: IHistoryMove = { color: color, piece: piece, move: san === ("O-O" || "O-O-O") ? san : lan };
 
   return [...history, nextMove];
 }

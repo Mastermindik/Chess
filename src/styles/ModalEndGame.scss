@@ -11,7 +11,8 @@
     animation: show .3s;
 
     .modal {
-        width: 15rem;
+        padding: 1rem;
+        width: fit-content;
         height: 10rem;
 
         display: flex;
@@ -33,36 +34,36 @@
             align-items: center;
             gap: .5rem;
 
-            .btn {
-                padding: 1rem;
-                font-weight: 700;
-                text-transform: uppercase;
-                border: 2px solid transparent;
-                border-radius: .4rem;
-                cursor: pointer;
-                transition: all .5s;
+            // .btn {
+            //     padding: 1rem;
+            //     font-weight: 700;
+            //     text-transform: uppercase;
+            //     border: 2px solid transparent;
+            //     border-radius: .4rem;
+            //     cursor: pointer;
+            //     transition: all .5s;
 
-                &.restart {
-                    background: var(--primary-square);
-                    border-color: var(--primary-square);
+            //     &.restart {
+            //         background: var(--primary-square);
+            //         border-color: var(--primary-square);
 
-                    &:hover {
-                        color: var(--secondary-color);
-                        background: var(--secondary-square);
-                    }
-                }
+            //         &:hover {
+            //             color: var(--secondary-color);
+            //             background: var(--secondary-square);
+            //         }
+            //     }
 
-                &.close {
-                    color: var(--secondary-color);
-                    background: var(--secondary-square);
-                    border-color: var(--secondary-square);
+            //     &.close {
+            //         color: var(--secondary-color);
+            //         background: var(--secondary-square);
+            //         border-color: var(--secondary-square);
 
-                    &:hover {
-                        color: var(--primary-color);
-                        background: var(--primary-square);
-                    }
-                }
-            }
+            //         &:hover {
+            //             color: var(--primary-color);
+            //             background: var(--primary-square);
+            //         }
+            //     }
+            // }
         }
     }
 }

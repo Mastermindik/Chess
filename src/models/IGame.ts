@@ -30,7 +30,7 @@ export interface IGameDetails {
   status: "waiting" | "ready" | "over",
   members: IMember[],
   gameId: string,
-  history: IHistoryMove[]
+  history: IHistoryMove[],
 }
 
 export interface IUpdateGameDetails {
@@ -39,7 +39,7 @@ export interface IUpdateGameDetails {
   status?: "waiting" | "ready" | "over",
   members?: IMember[],
   gameId?: string,
-  history?: IHistoryMove[]
+  history?: IHistoryMove[],
 }
 
 export const defaultGame: IGame = {
