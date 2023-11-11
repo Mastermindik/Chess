@@ -11,7 +11,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import Loading from "../../components/loading/Loading";
 import ErrorPage from "../errorPage/ErrorPage";
 import { IHistoryMove } from "../../models/IHistoryMove";
-import HistoryBox from "../../components/historyBox/HistoryBox";
+import GameInfo from "../../components/gameInfo/GameInfo";
 
 export default function GameApp() {
   const [board, setBoard] = useState<IBoard>([]);
@@ -23,10 +23,11 @@ export default function GameApp() {
   const [opponentName, setOpponentName] = useState<string>("");
   const [initResult, setInitResult] = useState<"not found" | "intruder" | "game over" | "connected to game">();
   const [closeModal, setCloseModal] = useState<boolean>(false);
+  const [history, setHistory] = useState<IHistoryMove[]>([])
+  // const [revengeOffer, setRevengeOffer] = useState<boolean>(false);
   const { id } = useParams();
   const [user, loading, error] = useAuthState(auth);
   const nickname = localStorage.getItem("nickname");
-  const [history, setHistory] = useState<IHistoryMove[]>([])
   //TODO restart game
 
   useEffect(() => {
@@ -47,14 +48,14 @@ export default function GameApp() {
       if (game.opponent) {
         setOpponentName(game.opponent.name)
       }
-      setHistory(game.history)
+      setHistory(game.history);
+      // setRevengeOffer(game.revengeOffer)
     })
 
     return () => {
       subscribe.unsubscribe()
     }
   }, [user])
-  console.log(history);
 
   if (!user) {
     return <OpponentEnter />
@@ -83,19 +84,13 @@ export default function GameApp() {
   if (initResult === "connected to game") {
     return (
       <div className="game">
-        {isGameOver && gameResult && !closeModal && <ModalEndGame reason={gameResult} setCloseModal={setCloseModal} />}
+        {isGameOver && gameResult && !closeModal &&
+          <ModalEndGame
+            reason={gameResult}
+            setCloseModal={setCloseModal}
+             />}
         <Board board={board} color={color} rotate={rotate} />
-        <div className="info">
-          {!!opponentName.length &&
-            <div className="name opponent">
-              {opponentName}
-            </div>
-          }
-          <HistoryBox history={history} />
-          <div className="name member">
-            {memberName}
-          </div>
-        </div>
+        <GameInfo history={history} memberName={memberName} opponentName={opponentName} />
       </div>
     )
   }
